@@ -4,7 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Clock from './components/Clock'
 import styled from 'styled-components'
-import bgImage from '/Users/matanyes/personal-dev/fitter/fittr/src/fittr_transparent.png';
+import bgImage from '/Users/matanyes/personal-dev/fittr/fittr/src/fittr_transparent.png';
 
 function App() {
   

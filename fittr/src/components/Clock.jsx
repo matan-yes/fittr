@@ -27,7 +27,7 @@ export default function Clock(){
 
     const ClockElement = styled.span`
         font-family: 'Montserrat', sans-serif;
-        font-size: 5rem;
+        font-size: 8rem;
         font-weight: bold;
         text-align: center;
         color: #d34444;
@@ -36,12 +36,16 @@ export default function Clock(){
         justify-content: center;
     
     `;
+    const DateElement = styled(ClockElement)`
+        font-size: 4rem;
+    
+    `;
 
 
     return (
         <>
-            <ClockElement> {formattedDate} </ClockElement><br />
             <ClockElement> {formattedTime}</ClockElement>
+            <DateElement> {formattedDate} </DateElement><br />
         </>
     )
 }
