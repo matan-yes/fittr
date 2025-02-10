@@ -27,13 +27,19 @@ export default function Clock(){
 
     const ClockElement = styled.span`
         font-family: 'Montserrat', sans-serif;
-        font-size: 8rem;
+        font-size: 14rem;
         font-weight: bold;
         text-align: center;
         color: #d34444;
         display: flex;
         align-items: center;
         justify-content: center;
+        
+        text-shadow: 
+            -2px -2px 0 black,  
+            2px -2px 0 black,
+            -2px  2px 0 black,
+            2px  2px 0 black;
     
     `;
     const DateElement = styled(ClockElement)`

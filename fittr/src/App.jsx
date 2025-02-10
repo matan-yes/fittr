@@ -14,14 +14,14 @@ function App() {
   min-width: 100vw;
   min-height: 100vh;
   background-image: url(${props => props.bg});
-  background-size: 70% 80%;
+  background-size: 55% 55%;
   background-position: top center;
   background-repeat: no-repeat;
 `;
 
 const Content = styled.div`
     position: absolute;
-    top: 70%; /* Starts at 70% from the top */
+    top: 40%; /* Starts at 70% from the top */
     left: 50%;
     transform: translate(-50%, 0); /* Centers horizontally */
     width: 80%; /* Adjust width as needed */
