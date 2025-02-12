@@ -57,7 +57,7 @@ Error generating stack: `+u.message+`
     `,w=Gr(g)`
         font-size: 4rem;
     
-    `;return dt.jsxs(dt.Fragment,{children:[dt.jsxs(g,{children:[" ",s]}),dt.jsxs(w,{children:[" ",p," "]}),dt.jsx("br",{})]})}const Mh="/assets/fittr_transparent-CwSWbVYZ.png";function jh(){const i=Gr.div`
+    `;return dt.jsxs(dt.Fragment,{children:[dt.jsxs(g,{children:[" ",s]}),dt.jsxs(w,{children:[" ",p," "]}),dt.jsx("br",{})]})}const Mh="/fittr/assets/fittr_transparent-CwSWbVYZ.png";function jh(){const i=Gr.div`
   display: flex;
   flex-direction: column;
   min-width: 100vw;
