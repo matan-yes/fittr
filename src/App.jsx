@@ -37,7 +37,7 @@ function App() {
   return (
     <>
     <ThemeProvider>
-      <Background bg={bgImage}> 
+      <Background bg$={bgImage}> 
         <Content>
           <Clock/>
         </Content>
