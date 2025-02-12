@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from "react"
 import styled from "styled-components";
 import { useTheme } from "../theme/theme";
+import { ThemeToggle } from "./ThemeSwitch";
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 
 
@@ -15,10 +18,10 @@ export const ClockElement = styled.span`
     justify-content: center;
     
     text-shadow: 
-        -2px -2px 0 black,  
-        2px -2px 0 black,
-        -2px  2px 0 black,
-        2px  2px 0 black;
+        -2px -2px 0 ${(props) => props.theme.text},  
+        2px -2px 0 ${(props) => props.theme.text},
+        -2px  2px 0 ${(props) => props.theme.text},
+        2px  2px 0 ${(props) => props.theme.text};
 
 `;
 export const DateElement = styled(ClockElement)`
@@ -56,7 +59,13 @@ export default function Clock(){
     return (
         <>
             <ClockElement> {formattedTime}</ClockElement>
-            <DateElement onClick={toggleTheme}> {formattedDate} </DateElement><br />
+            <DateElement> {formattedDate} </DateElement><br />
+            <FormGroup>
+                <FormControlLabel
+                        control={<ThemeToggle onChange={toggleTheme} sx={{ m: 1 }} defaultChecked={false} />}
+                        label="Dark Mode"
+                />
+            </FormGroup>
         </>
     )
 }
