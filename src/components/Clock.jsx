@@ -1,15 +1,11 @@
 import React, {useState, useEffect} from "react"
 import styled from "styled-components";
-import { useTheme } from "../theme/theme";
-import { ThemeToggle } from "./ThemeSwitch";
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 
 
 
 export const ClockElement = styled.span`
     font-family: 'Montserrat', sans-serif;
-    font-size: 14rem;
+    font-size: 11rem;
     font-weight: bold;
     text-align: center;
     color: #d34444;
@@ -40,7 +36,7 @@ export default function Clock(){
     });
     
     const formattedDate = currentTime.toLocaleDateString("en-US", {
-        weekday: "short",
+        weekday: "long",
         month: "short",
         day: "numeric",
         year: "numeric",
@@ -55,17 +51,10 @@ export default function Clock(){
 
 
 
-    const { toggleTheme } = useTheme();
     return (
         <>
             <ClockElement> {formattedTime}</ClockElement>
             <DateElement> {formattedDate} </DateElement><br />
-            <FormGroup>
-                <FormControlLabel
-                        control={<ThemeToggle onChange={toggleTheme} sx={{ m: 1 }} defaultChecked={false} />}
-                        label="Dark Mode"
-                />
-            </FormGroup>
         </>
     )
 }

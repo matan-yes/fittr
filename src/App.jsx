@@ -1,44 +1,57 @@
 import './App.css'
 import Clock from './components/Clock'
-import styled from 'styled-components'
-import bgImage from '/Users/matanyes/personal-dev/fittr/src/fittr_transparent.png';
+import styled, {useTheme} from 'styled-components'
 import { ThemeProvider } from './theme/theme'
+import ThemeToggler from "./components/ThemeToggler";
+
+
+export const View = styled.div((props) =>({
+  display: 'flex',
+  flex: '1 1 auto',
+  flexDirection: 'column',
+  minWidth: '100vw',
+  minHeight: '100vh',
+  alignItems: 'center',
+  backgroundColor: props.theme.background
+}));
+
 
 export const Background = styled.div`
 display: flex;
 flex-direction: column;
-min-width: 100vw;
-min-height: 100vh;
-background-image: url(${props => props.bg$});
-background-size: 55% 55%;
-background-position: top center;
+width: 100%;
+height: 50%;
+background-image: url(${(props) => 
+    props.theme.url 
+  });
+background-size: 38%;
+background-position: center;
 background-repeat: no-repeat;
 background-color: ${(props) => props.theme.background};
+background-clip: content-box;
 `;
 
 export const Content = styled.div`
-  position: absolute;
-  top: 40%; /* Starts at 70% from the top */
-  left: 50%;
-  transform: translate(-50%, 0); /* Centers horizontally */
-  width: 80%; /* Adjust width as needed */
-  color: white;
-  padding: 20px;
-  text-align: center;
-  border-radius: 10px;
+    background-color: ${(props) => props.theme.background};
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
 `;
 
 function App() {
   
-
   return (
     <>
     <ThemeProvider>
-      <Background bg$={bgImage}> 
+      <View>
+      <Background/> 
         <Content>
           <Clock/>
         </Content>
-      </Background>
+        <ThemeToggler />
+      </View>
     </ThemeProvider>
     </>
   )
