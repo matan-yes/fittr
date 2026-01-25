@@ -6,6 +6,13 @@ export default defineConfig({
   plugins: [react()],
   base: '/fittr/',
   build: {
-    outDir: 'docs'
-  }
+    outDir: 'build',
+  },
+  server: {
+    port: 8080,
+    open: true,
+    watch: {
+      ignored: ['**/dev_tools/**', '**/.claude/**']
+    }
+  },
 })
