@@ -3,8 +3,11 @@ import Clock from './components/Clock'
 import styled, { useTheme } from 'styled-components'
 import { ThemeProvider } from './theme/theme'
 import ThemeToggler from "./components/ThemeToggler";
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
 import Tabata from './components/Tabata/Tabata';
+import Amrap from './components/Amrap/Amrap';
+import ForTime from './components/ForTime/ForTime';
+import RoundMenuBtn from './components/Buttons/RoundMenuBtn'
 
 
 export const View = styled.div((props) => ({
@@ -41,6 +44,21 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
 `;
+const NavigationBarContainer = styled.div(() => ({
+  display: 'flex',
+  width: '100%',
+  alignItems: 'flex-start',
+  flexDirection: 'row',
+}));
+function NavigationBar() {
+
+  return (
+    <NavigationBarContainer>
+      <ThemeToggler />
+      <RoundMenuBtn />
+    </NavigationBarContainer>
+  )
+}
 
 function Main() {
   return (
@@ -49,7 +67,7 @@ function Main() {
       <Content>
         <Clock />
       </Content>
-      <ThemeToggler />
+      <NavigationBar />
     </View>
   );
 }
@@ -63,6 +81,8 @@ function Routers() {
         <Route path="/" element={<Navigate to="/main" />} />
         <Route path="/main" element={<Main />} />
         <Route path="/tabata" element={<Tabata />} />
+        <Route path="/amrap" element={<Amrap />} />
+        <Route path="/for-time" element={<ForTime />} />
       </Routes>
     </BrowserRouter>
   )
