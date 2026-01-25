@@ -21,3 +21,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# cluade
+dev_tools
+.claude
+
