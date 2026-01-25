@@ -138,6 +138,7 @@ function ForTime() {
                     <>
                         <Phase>{isStopped ? "COMPLETED!" : "FOR TIME"}</Phase>
                         <TimeDisplay>{formatTime(time)}</TimeDisplay>
+                        <Phase>Time Cap: {formatTime(timeCap)}</Phase>
                         <ProgressBar progress={progress} />
                     </>
                 )}

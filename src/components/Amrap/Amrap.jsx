@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { Header, TimerContainer, Phase, TimeDisplay, Controls, Button, Input, ProgressBar, RoundButton, FormContainer, TimerContent } from "./Amrap.style";
+import { Header, TimerContainer, Phase, TimeDisplay, Controls, Button, Input, ProgressBar, MinuteButton, FormContainer, TimerContent } from "./Amrap.style";
 
 function Amrap() {
     const [preCountdown, setPreCountdown] = useState(10);
@@ -8,7 +8,6 @@ function Amrap() {
     const [time, setTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [isPreWorkout, setIsPreWorkout] = useState(true);
-    const [rounds, setRounds] = useState(0);
     const [timeCap, setTimeCap] = useState(600);
 
     const navigate = useNavigate();
@@ -60,11 +59,10 @@ function Amrap() {
         setPreCountdown(preCountdownDuration);
         setIsPreWorkout(true);
         setTime(0);
-        setRounds(0);
     };
 
-    const handleAddRound = () => {
-        setRounds((prev) => prev + 1);
+    const handleAddMinute = () => {
+        setTimeCap((prev) => prev + 60);
     };
 
     const handleTimeCapChange = (e) => {
@@ -101,7 +99,7 @@ function Amrap() {
                     <>
                         <Phase>AMRAP</Phase>
                         <TimeDisplay>{formatTime(time)}</TimeDisplay>
-                        <Phase>Rounds: {rounds}</Phase>
+                        <Phase>Time Cap: {formatTime(timeCap)}</Phase>
                         <ProgressBar progress={progress} />
                     </>
                 )}
@@ -113,7 +111,7 @@ function Amrap() {
                         {isRunning ? "Pause" : "Start"}
                     </Button>
                     {!isPreWorkout && (
-                        <RoundButton onClick={handleAddRound}>+1 Round</RoundButton>
+                        <MinuteButton onClick={handleAddMinute}>+1 Min</MinuteButton>
                     )}
                     <Button onClick={handleReset}>Reset</Button>
                     <Button onClick={backToMenu}>Back</Button>

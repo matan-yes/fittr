@@ -29,13 +29,13 @@ export const TimerContainer = styled.div(({ $isStopped }) => ({
 }));
 
 export const TimeDisplay = styled.div(() => ({
-    fontSize: "10rem",
+    fontSize: "15rem",
     fontWeight: "bold",
     marginBottom: "20px",
 }));
 
 export const Phase = styled.div(() => ({
-    fontSize: "2rem",
+    fontSize: "3rem",
     fontWeight: "bold",
     textTransform: "uppercase",
 }));
@@ -72,13 +72,14 @@ export const Input = styled.input(() => ({
 }));
 
 export const ProgressBar = styled.div(({ progress }) => ({
-    width: "80%",
-    height: "20px",
+    width: "80vw",
+    height: "40px",
     backgroundColor: "#ddd",
-    borderRadius: "10px",
-    marginTop: "20px",
+    borderRadius: "20px",
+    marginTop: "30px",
     overflow: "hidden",
     position: "relative",
+    boxShadow: "inset 0 2px 4px rgba(0,0,0,0.2)",
     "&::after": {
         content: '""',
         position: "absolute",
@@ -88,6 +89,7 @@ export const ProgressBar = styled.div(({ progress }) => ({
         height: "100%",
         backgroundColor: "#fff",
         transition: "width 1s linear",
+        boxShadow: "0 2px 4px rgba(255,255,255,0.3)",
     },
 }));
 

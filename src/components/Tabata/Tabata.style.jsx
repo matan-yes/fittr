@@ -29,35 +29,54 @@ export const TimerContainer = styled.div(({ $isWork }) => ({
 }));
 
 export const TimeDisplay = styled.div(() => ({
-    fontSize: "10rem",
+    fontSize: "15rem",
     fontWeight: "bold",
     marginBottom: "20px",
 }));
 
 export const Phase = styled.div(() => ({
-    fontSize: "2rem",
+    fontSize: "3rem",
     fontWeight: "bold",
     textTransform: "uppercase",
 }));
 
-export const ProgressBar = styled.div(({ progress }) => ({
-    width: "80%",
-    height: "20px",
+export const ProgressBarContainer = styled.div(() => ({
+    width: "80vw",
+    height: "40px",
     backgroundColor: "#ddd",
-    borderRadius: "10px",
-    marginTop: "20px",
+    borderRadius: "20px",
+    marginTop: "30px",
     overflow: "hidden",
     position: "relative",
-    "&::after": {
+    boxShadow: "inset 0 2px 4px rgba(0,0,0,0.2)",
+    display: "flex",
+}));
+
+export const ProgressSegment = styled.div(({ $isWork, $isCompleted, $isCurrent, $progress, $isFinished }) => ({
+    flex: 1,
+    height: "100%",
+    backgroundColor: $isFinished
+        ? "#4dff4d"
+        : $isCompleted
+            ? ($isWork ? "#ff6b6b" : "#6ba3ff")
+            : "#ddd",
+    position: "relative",
+    borderRight: "2px solid #fff",
+    transition: "background-color 0.5s ease",
+    overflow: "hidden",
+    "&:last-child": {
+        borderRight: "none",
+    },
+    "&::after": $isCurrent ? {
         content: '""',
         position: "absolute",
         top: 0,
         left: 0,
-        width: `${progress}%`,
+        width: `${$progress}%`,
         height: "100%",
-        backgroundColor: "#fff",
-        transition: "width 1s linear",
-    },
+        backgroundColor: $isWork ? "#ff6b6b" : "#6ba3ff",
+        transition: "width 0.05s linear",
+    } : {},
 }));
 
 export const Controls = styled.div(() => ({
