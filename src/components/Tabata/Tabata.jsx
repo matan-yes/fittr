@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 
 import { Header, TimerContainer, Phase, TimeDisplay, Controls, Button, Input, ProgressBarContainer, ProgressSegment, FormContainer, TimerContent } from "./Tabata.style";
-
-// const beepSound = new Audio("/beep.mp3"); // Short beep for last 3 seconds
-// const skiClockSound = new Audio("/ski-clock.mp3"); // Alpine ski clock sound
+import alpineSkiClockSound from "../../assets/alpineSkiClock.mp3";
 
 function Tabata() {
     const [preCountdown, setPreCountdown] = useState(10);
@@ -22,7 +20,21 @@ function Tabata() {
     const [workDuration, setWorkDuration] = useState(20);
     const [restDuration, setRestDuration] = useState(10);
 
+    const [soundPlayed, setSoundPlayed] = useState(false);
+    const audioRef = useRef(null);
+
     const navigate = useNavigate();
+
+    // Initialize audio
+    useEffect(() => {
+        audioRef.current = new Audio(alpineSkiClockSound);
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current = null;
+            }
+        };
+    }, []);
 
 
     useEffect(() => {
@@ -35,11 +47,16 @@ function Tabata() {
                         if (prev <= 1) {
                             setIsPreWorkout(false);
                             setTime(workDuration);
+                            setSoundPlayed(false); // Reset for next phase
                             return 0;
 
                         }
-                        if (prev <= 4 && prev > 1) {
-                            // beepSound.play(); // Play beep in last 3 seconds
+                        if (prev === 4) {
+                            if (audioRef.current && !soundPlayed) {
+                                audioRef.current.currentTime = 0;
+                                audioRef.current.play().catch(e => console.log("Audio play failed:", e));
+                                setSoundPlayed(true);
+                            }
                         }
 
                         return prev - 1;
@@ -66,6 +83,7 @@ function Tabata() {
                                                 setTime(restDuration);
                                                 setMilliseconds(0);
                                                 setIsWorkPhase(false);
+                                                setSoundPlayed(false); // Reset for next phase
                                             }
                                         } else {
                                             // Rest phase ending - transition to work
@@ -73,6 +91,7 @@ function Tabata() {
                                             setMilliseconds(0);
                                             setRoundsLeft((r) => r - 1);
                                             setIsWorkPhase(true);
+                                            setSoundPlayed(false); // Reset for next phase
                                         }
                                     }, 50);
                                     return 0;
@@ -90,15 +109,30 @@ function Tabata() {
         return () => clearInterval(timer);
     }, [isRunning, isPreWorkout, preCountdown, isWorkPhase, roundsLeft, workDuration, restDuration]);
 
+    // Play sound during last 3 seconds of work/rest phases
+    useEffect(() => {
+        if (!isPreWorkout && isRunning && time <= 3 && time > 0 && !soundPlayed) {
+            if (audioRef.current) {
+                audioRef.current.currentTime = 0;
+                audioRef.current.play().catch(e => console.log("Audio play failed:", e));
+                setSoundPlayed(true);
+            }
+        }
+    }, [time, isPreWorkout, isRunning, soundPlayed]);
+
     const handleStartPause = () => {
         if (roundsLeft > 0 || isRunning) {
             // Lock in the configured rounds when starting
             if (!isRunning && isPreWorkout) {
                 setTotalRounds(configuredRounds);
                 setRoundsLeft(configuredRounds);
+                setSoundPlayed(false); // Reset sound flag when starting
             }
             setIsRunning(!isRunning);
-            if (isPreWorkout && !isRunning) setPreCountdown(preCountdownDuration);
+            if (isPreWorkout && !isRunning) {
+                setPreCountdown(preCountdownDuration);
+                setSoundPlayed(false); // Reset sound flag for pre-workout
+            }
             if (isPreWorkout && isRunning) setIsPreWorkout(false);
         }
     };
@@ -111,6 +145,11 @@ function Tabata() {
         setMilliseconds(0);
         setIsWorkPhase(true);
         setRoundsLeft(configuredRounds);
+        setSoundPlayed(false); // Reset sound flag on reset
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+        }
     };
 
     const handleWorkDurationChange = (e) => {
