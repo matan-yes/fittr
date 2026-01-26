@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { Header, TimerContainer, Phase, TimeDisplay, Controls, Button, Input, ProgressBar, ToggleButton, MinuteButton, FormContainer, TimerContent } from "./ForTime.style";
+import alpineSkiClockSound from "../../assets/alpineSkiClock.mp3";
 
 function ForTime() {
     const [preCountdown, setPreCountdown] = useState(10);
@@ -11,8 +12,21 @@ function ForTime() {
     const [isStopped, setIsStopped] = useState(false);
     const [timeCap, setTimeCap] = useState(600);
     const [countMode, setCountMode] = useState("up"); // "up" or "down"
+    const [soundPlayed, setSoundPlayed] = useState(false);
+    const audioRef = useRef(null);
 
     const navigate = useNavigate();
+
+    // Initialize audio
+    useEffect(() => {
+        audioRef.current = new Audio(alpineSkiClockSound);
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current = null;
+            }
+        };
+    }, []);
 
     useEffect(() => {
         let timer;
@@ -25,7 +39,15 @@ function ForTime() {
                             setIsPreWorkout(false);
                             // Initialize time based on count mode
                             setTime(countMode === "down" ? timeCap : 0);
+                            setSoundPlayed(false); // Reset for workout phase
                             return 0;
+                        }
+                        if (prev === 4) {
+                            if (audioRef.current && !soundPlayed) {
+                                audioRef.current.currentTime = 0;
+                                audioRef.current.play().catch(e => console.log("Audio play failed:", e));
+                                setSoundPlayed(true);
+                            }
                         }
                         return prev - 1;
                     });
@@ -40,6 +62,14 @@ function ForTime() {
                                 setIsStopped(true);
                                 return timeCap;
                             }
+                            // Play sound when 3 seconds remain (trigger at 4 so display shows 3 remaining)
+                            if (timeCap - prev === 4 && !soundPlayed) {
+                                if (audioRef.current) {
+                                    audioRef.current.currentTime = 0;
+                                    audioRef.current.play().catch(e => console.log("Audio play failed:", e));
+                                    setSoundPlayed(true);
+                                }
+                            }
                             return prev + 1;
                         } else {
                             // Count down mode: stop at 0
@@ -47,6 +77,14 @@ function ForTime() {
                                 setIsRunning(false);
                                 setIsStopped(true);
                                 return 0;
+                            }
+                            // Play sound when countdown reaches 3 seconds
+                            if (prev === 4 && !soundPlayed) {
+                                if (audioRef.current) {
+                                    audioRef.current.currentTime = 0;
+                                    audioRef.current.play().catch(e => console.log("Audio play failed:", e));
+                                    setSoundPlayed(true);
+                                }
                             }
                             return prev - 1;
                         }
@@ -56,7 +94,7 @@ function ForTime() {
         }
 
         return () => clearInterval(timer);
-    }, [isRunning, isPreWorkout, preCountdown, isStopped, countMode, timeCap]);
+    }, [isRunning, isPreWorkout, preCountdown, isStopped, countMode, timeCap, soundPlayed]);
 
     const formatTime = (seconds) => {
         const mins = Math.floor(seconds / 60);
@@ -66,6 +104,9 @@ function ForTime() {
 
     const handleStartPause = () => {
         if (!isStopped) {
+            if (!isRunning && isPreWorkout) {
+                setSoundPlayed(false); // Reset sound flag when starting
+            }
             setIsRunning(!isRunning);
         }
     };
@@ -81,6 +122,11 @@ function ForTime() {
         setIsPreWorkout(true);
         setTime(countMode === "down" ? timeCap : 0);
         setIsStopped(false);
+        setSoundPlayed(false); // Reset sound flag on reset
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+        }
     };
 
     const handlePreCountdownChange = (e) => {
@@ -105,6 +151,7 @@ function ForTime() {
         if (countMode === "down") {
             setTime((prev) => prev + 60);
         }
+        setSoundPlayed(false); // Reset sound flag when adding time
     };
 
     const handleCountModeToggle = () => {
@@ -113,6 +160,7 @@ function ForTime() {
         if (isPreWorkout) {
             setTime(newMode === "down" ? timeCap : 0);
         }
+        setSoundPlayed(false); // Reset sound flag when changing mode
     };
 
     const backToMenu = () => {
