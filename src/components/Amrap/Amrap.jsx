@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { Header, TimerContainer, Phase, TimeDisplay, Controls, Button, Input, ProgressBar, MinuteButton, FormContainer, TimerContent } from "./Amrap.style";
+import alpineSkiClockSound from "../../assets/alpineSkiClock.mp3";
 
 function Amrap() {
     const [preCountdown, setPreCountdown] = useState(10);
@@ -9,8 +10,21 @@ function Amrap() {
     const [isRunning, setIsRunning] = useState(false);
     const [isPreWorkout, setIsPreWorkout] = useState(true);
     const [timeCap, setTimeCap] = useState(600);
+    const [soundPlayed, setSoundPlayed] = useState(false);
+    const audioRef = useRef(null);
 
     const navigate = useNavigate();
+
+    // Initialize audio
+    useEffect(() => {
+        audioRef.current = new Audio(alpineSkiClockSound);
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current = null;
+            }
+        };
+    }, []);
 
     useEffect(() => {
         let timer;
@@ -21,7 +35,15 @@ function Amrap() {
                     setPreCountdown((prev) => {
                         if (prev <= 1) {
                             setIsPreWorkout(false);
+                            setSoundPlayed(false); // Reset for AMRAP phase
                             return 0;
+                        }
+                        if (prev === 4) {
+                            if (audioRef.current && !soundPlayed) {
+                                audioRef.current.currentTime = 0;
+                                audioRef.current.play().catch(e => console.log("Audio play failed:", e));
+                                setSoundPlayed(true);
+                            }
                         }
                         return prev - 1;
                     });
@@ -33,6 +55,14 @@ function Amrap() {
                             setIsRunning(false);
                             return timeCap;
                         }
+                        // Play sound when 3 seconds remain (trigger at 4 so display shows 3 remaining)
+                        if (timeCap - prev === 4 && !soundPlayed) {
+                            if (audioRef.current) {
+                                audioRef.current.currentTime = 0;
+                                audioRef.current.play().catch(e => console.log("Audio play failed:", e));
+                                setSoundPlayed(true);
+                            }
+                        }
                         return prev + 1;
                     });
                 }, 1000);
@@ -40,7 +70,7 @@ function Amrap() {
         }
 
         return () => clearInterval(timer);
-    }, [isRunning, isPreWorkout, preCountdown, time, timeCap]);
+    }, [isRunning, isPreWorkout, preCountdown, time, timeCap, soundPlayed]);
 
     const formatTime = (seconds) => {
         const mins = Math.floor(seconds / 60);
@@ -50,6 +80,9 @@ function Amrap() {
 
     const handleStartPause = () => {
         if (time < timeCap) {
+            if (!isRunning && isPreWorkout) {
+                setSoundPlayed(false); // Reset sound flag when starting
+            }
             setIsRunning(!isRunning);
         }
     };
@@ -59,10 +92,16 @@ function Amrap() {
         setPreCountdown(preCountdownDuration);
         setIsPreWorkout(true);
         setTime(0);
+        setSoundPlayed(false); // Reset sound flag on reset
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+        }
     };
 
     const handleAddMinute = () => {
         setTimeCap((prev) => prev + 60);
+        setSoundPlayed(false); // Reset sound flag when adding time
     };
 
     const handleTimeCapChange = (e) => {
