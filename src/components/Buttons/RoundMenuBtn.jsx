@@ -118,17 +118,18 @@ const FloatingButton = ({ iconType, iconUrl, tooltip, onClick }) => {
     const iconColor = theme.text;
 
     const renderIcon = () => {
+        const iconSize = 50; // Much larger icon size
         switch(iconType) {
             case 'spotify':
-                return <SpotifyIcon color={iconColor} size={32} />;
+                return <SpotifyIcon color={iconColor} size={iconSize} />;
             case 'youtube':
-                return <YoutubeIcon color={iconColor} size={32} />;
+                return <YoutubeIcon color={iconColor} size={iconSize} />;
             case 'tabata':
-                return <TabataIcon color={iconColor} size={32} />;
+                return <TabataIcon color={iconColor} size={iconSize} />;
             case 'amrap':
-                return <AmrapIcon color={iconColor} size={32} />;
+                return <AmrapIcon color={iconColor} size={iconSize} />;
             case 'fortime':
-                return <ForTimeIcon color={iconColor} size={32} />;
+                return <ForTimeIcon color={iconColor} size={iconSize} />;
             case 'image':
                 return <Icon $url={iconUrl} />;
             case 'none':
@@ -150,13 +151,14 @@ const FloatingButton = ({ iconType, iconUrl, tooltip, onClick }) => {
                 <div
                     style={{
                         position: "absolute",
-                        left: "55px",
+                        left: "70px",
                         background: "rgba(0, 0, 0, 0.75)",
                         color: "white",
-                        padding: "6px 10px",
-                        borderRadius: "6px",
+                        padding: "10px 16px",
+                        borderRadius: "8px",
                         whiteSpace: "nowrap",
-                        fontSize: "14px",
+                        fontSize: "18px",
+                        fontWeight: "500",
                         transition: "opacity 0.2s ease-in-out",
                         boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
                     }}
@@ -171,8 +173,8 @@ const FloatingButton = ({ iconType, iconUrl, tooltip, onClick }) => {
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}
                 style={{
-                    width: "48px",
-                    height: "48px",
+                    width: "60px",
+                    height: "60px",
                     borderRadius: "50%",
                     border: "none",
                     background: "#d34444",
