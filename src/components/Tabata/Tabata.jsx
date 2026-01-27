@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 
-import { Header, TimerContainer, Phase, TimeDisplay, Controls, Button, Input, ProgressBarContainer, ProgressSegment, FormContainer, TimerContent } from "./Tabata.style";
+import { Header, BackArrow, TimerContainer, Phase, TimeDisplay, Controls, Button, Input, ProgressBarContainer, ProgressSegment, FormContainer, TimerContent } from "./Tabata.style";
 import alpineSkiClockSound from "../../assets/alpineSkiClock.mp3";
 
 function Tabata() {
@@ -197,6 +197,7 @@ function Tabata() {
 
     return (
         <TimerContainer $isWork={isWorkPhase}>
+            <BackArrow onClick={backToMenu}>←</BackArrow>
             <Header>Tabata</Header>
             <TimerContent>
                 {isPreWorkout ? (
