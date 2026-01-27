@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
-import { Header, TimerContainer, Phase, TimeDisplay, Controls, Button, Input, ProgressBar, MinuteButton, FormContainer, TimerContent } from "./Amrap.style";
+import { Header, BackArrow, TimerContainer, Phase, TimeDisplay, Controls, Button, Input, ProgressBar, MinuteButton, FormContainer, TimerContent } from "./Amrap.style";
 import alpineSkiClockSound from "../../assets/alpineSkiClock.mp3";
 
 function Amrap() {
@@ -127,6 +127,7 @@ function Amrap() {
 
     return (
         <TimerContainer>
+            <BackArrow onClick={backToMenu}>←</BackArrow>
             <Header>AMRAP</Header>
             <TimerContent>
                 {isPreWorkout ? (
@@ -157,29 +158,22 @@ function Amrap() {
                 </Controls>
 
                 {isPreWorkout && (
-                    <div style={{ marginTop: '20px' }}>
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: 'white', fontSize: '1.2rem', marginRight: '10px' }}>
-                                Countdown:
-                            </label>
-                            <Input
-                                type="number"
-                                value={preCountdownDuration}
-                                onChange={handlePreCountdownChange}
-                                disabled={isRunning}
-                            />
-                        </div>
-                        <div>
-                            <label style={{ color: 'white', fontSize: '1.2rem', marginRight: '10px' }}>
-                                Time Cap (minutes):
-                            </label>
-                            <Input
-                                type="number"
-                                value={timeCap / 60}
-                                onChange={handleTimeCapChange}
-                                disabled={isRunning}
-                            />
-                        </div>
+                    <div style={{ color: 'white', fontSize: '1rem' }}>
+                        <label>Countdown: </label>
+                        <Input
+                            type="number"
+                            value={preCountdownDuration}
+                            onChange={handlePreCountdownChange}
+                            disabled={isRunning}
+                        />
+                        <label>Time Cap: </label>
+                        <Input
+                            type="number"
+                            value={timeCap / 60}
+                            onChange={handleTimeCapChange}
+                            disabled={isRunning}
+                        />
+                        <label>minutes</label>
                     </div>
                 )}
             </FormContainer>
