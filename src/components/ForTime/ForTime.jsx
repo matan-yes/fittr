@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
-import { Header, TimerContainer, Phase, TimeDisplay, Controls, Button, Input, ProgressBar, ToggleButton, MinuteButton, FormContainer, TimerContent } from "./ForTime.style";
+import { Header, BackArrow, TimerContainer, Phase, TimeDisplay, Controls, Button, Input, ProgressBar, ToggleButton, MinuteButton, FormContainer, TimerContent } from "./ForTime.style";
 import alpineSkiClockSound from "../../assets/alpineSkiClock.mp3";
 
 function ForTime() {
@@ -175,6 +175,7 @@ function ForTime() {
 
     return (
         <TimerContainer $isStopped={isStopped}>
+            <BackArrow onClick={backToMenu}>←</BackArrow>
             <Header>For Time</Header>
             <TimerContent>
                 {isPreWorkout ? (
@@ -212,33 +213,25 @@ function ForTime() {
                 </Controls>
 
                 {isPreWorkout && (
-                    <div style={{ marginTop: '20px' }}>
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: 'white', fontSize: '1.2rem', marginRight: '10px' }}>
-                                Countdown:
-                            </label>
+                    <>
+                        <div style={{ color: 'white', fontSize: '1rem', marginTop: '10px' }}>
+                            <label>Countdown: </label>
                             <Input
                                 type="number"
                                 value={preCountdownDuration}
                                 onChange={handlePreCountdownChange}
                                 disabled={isRunning}
                             />
-                        </div>
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ color: 'white', fontSize: '1.2rem', marginRight: '10px' }}>
-                                Time Cap (minutes):
-                            </label>
+                            <label>Time Cap: </label>
                             <Input
                                 type="number"
                                 value={timeCap / 60}
                                 onChange={handleTimeCapChange}
                                 disabled={isRunning}
                             />
+                            <label>minutes</label>
                         </div>
-                        <div>
-                            <label style={{ color: 'white', fontSize: '1.2rem', marginRight: '10px' }}>
-                                Mode:
-                            </label>
+                        <div style={{ marginTop: '10px' }}>
                             <ToggleButton
                                 onClick={handleCountModeToggle}
                                 disabled={isRunning}
@@ -254,7 +247,7 @@ function ForTime() {
                                 Count Down
                             </ToggleButton>
                         </div>
-                    </div>
+                    </>
                 )}
             </FormContainer>
         </TimerContainer>
