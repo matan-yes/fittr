@@ -12,6 +12,30 @@ export const Header = styled.div(() => ({
     letterSpacing: "2px",
 }));
 
+export const BackArrow = styled.button(() => ({
+    position: "absolute",
+    top: "20px",
+    left: "20px",
+    background: "transparent",
+    border: "none",
+    color: "white",
+    fontSize: "3rem",
+    cursor: "pointer",
+    padding: "10px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    transition: "all 0.2s ease",
+    zIndex: 10,
+    "&:hover": {
+        transform: "scale(1.1)",
+        opacity: 0.8,
+    },
+    "&:active": {
+        transform: "scale(0.95)",
+    },
+}));
+
 export const TimerContainer = styled.div(() => ({
     display: "flex",
     flexDirection: "column",
@@ -72,39 +96,77 @@ export const Controls = styled.div(() => ({
 
 export const Button = styled.button(() => ({
     backgroundColor: "white",
-    color: "black",
-    fontSize: "1.2rem",
+    color: "#1a1a1a",
+    fontSize: "0.9rem",
+    fontWeight: "500",
     padding: "10px 20px",
     border: "none",
-    borderRadius: "5px",
+    borderRadius: "8px",
     cursor: "pointer",
-    transition: "0.3s",
+    transition: "all 0.2s ease",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.15)",
+    textTransform: "uppercase",
+    letterSpacing: "0.5px",
     "&:hover": {
-        backgroundColor: "#ddd",
+        backgroundColor: "#f5f5f5",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+        transform: "translateY(-1px)",
+    },
+    "&:active": {
+        transform: "translateY(0)",
+        boxShadow: "0 1px 2px rgba(0, 0, 0, 0.2)",
     },
 }));
 
 export const MinuteButton = styled.button(() => ({
-    backgroundColor: "#fff700",
-    color: "black",
-    fontSize: "1.2rem",
+    backgroundColor: "#ffd600",
+    color: "#1a1a1a",
+    fontSize: "0.9rem",
+    fontWeight: "600",
     padding: "10px 20px",
     border: "none",
-    borderRadius: "5px",
+    borderRadius: "8px",
     cursor: "pointer",
-    transition: "0.3s",
-    fontWeight: "bold",
+    transition: "all 0.2s ease",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.15)",
+    textTransform: "uppercase",
+    letterSpacing: "0.5px",
     "&:hover": {
-        backgroundColor: "#e6de00",
+        backgroundColor: "#ffea00",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+        transform: "translateY(-1px)",
+    },
+    "&:active": {
+        transform: "translateY(0)",
+        boxShadow: "0 1px 2px rgba(0, 0, 0, 0.2)",
     },
 }));
 
 export const Input = styled.input(() => ({
-    fontSize: "1.2rem",
-    padding: "5px",
+    fontSize: "1.1rem",
+    padding: "10px 14px",
     margin: "5px",
     width: "80px",
     textAlign: "center",
+    border: "2px solid rgba(255, 255, 255, 0.5)",
+    borderRadius: "8px",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    color: "#1a1a1a",
+    fontWeight: "500",
+    outline: "none",
+    transition: "all 0.2s ease",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+    "&:focus": {
+        border: "2px solid white",
+        backgroundColor: "white",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.15)",
+        transform: "translateY(-1px)",
+    },
+    "&:disabled": {
+        backgroundColor: "rgba(255, 255, 255, 0.6)",
+        cursor: "not-allowed",
+        opacity: "0.7",
+    },
 }));
 
 export const FormContainer = styled.div(() => ({
