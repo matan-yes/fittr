@@ -34,6 +34,11 @@ export const BackArrow = styled.button(() => ({
     "&:active": {
         transform: "scale(0.95)",
     },
+    "&:disabled": {
+        cursor: "not-allowed",
+        opacity: 0.3,
+        transform: "none",
+    },
 }));
 
 export const TimerContainer = styled.div(({ $isWork }) => ({
@@ -130,6 +135,12 @@ export const Button = styled.button(() => ({
     "&:active": {
         transform: "translateY(0)",
         boxShadow: "0 1px 2px rgba(0, 0, 0, 0.2)",
+    },
+    "&:disabled": {
+        backgroundColor: "rgba(255, 255, 255, 0.4)",
+        cursor: "not-allowed",
+        opacity: 0.5,
+        transform: "none",
     },
 }));
 

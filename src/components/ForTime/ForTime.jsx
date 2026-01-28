@@ -175,7 +175,7 @@ function ForTime() {
 
     return (
         <TimerContainer $isStopped={isStopped}>
-            <BackArrow onClick={backToMenu}>←</BackArrow>
+            <BackArrow onClick={backToMenu} disabled={isRunning && !isStopped}>←</BackArrow>
             <Header>For Time</Header>
             <TimerContent>
                 {isPreWorkout ? (
@@ -209,7 +209,7 @@ function ForTime() {
                         </>
                     )}
                     <Button onClick={handleReset}>Reset</Button>
-                    <Button onClick={backToMenu}>Back</Button>
+                    <Button onClick={backToMenu} disabled={isRunning && !isStopped}>Back</Button>
                 </Controls>
 
                 {isPreWorkout && (

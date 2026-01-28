@@ -197,7 +197,7 @@ function Tabata() {
 
     return (
         <TimerContainer $isWork={isWorkPhase}>
-            <BackArrow onClick={backToMenu}>←</BackArrow>
+            <BackArrow onClick={backToMenu} disabled={isRunning}>←</BackArrow>
             <Header>Tabata</Header>
             <TimerContent>
                 {isPreWorkout ? (
@@ -238,7 +238,7 @@ function Tabata() {
                         {isRunning ? "Pause" : "Start"}
                     </Button>
                     <Button onClick={handleReset}>Reset</Button>
-                    <Button onClick={backToMenu}>Back</Button>
+                    <Button onClick={backToMenu} disabled={isRunning}>Back</Button>
                 </Controls>
 
                 <div>

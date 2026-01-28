@@ -127,7 +127,7 @@ function Amrap() {
 
     return (
         <TimerContainer>
-            <BackArrow onClick={backToMenu}>←</BackArrow>
+            <BackArrow onClick={backToMenu} disabled={isRunning}>←</BackArrow>
             <Header>AMRAP</Header>
             <TimerContent>
                 {isPreWorkout ? (
@@ -154,7 +154,7 @@ function Amrap() {
                         <MinuteButton onClick={handleAddMinute}>+1 Min</MinuteButton>
                     )}
                     <Button onClick={handleReset}>Reset</Button>
-                    <Button onClick={backToMenu}>Back</Button>
+                    <Button onClick={backToMenu} disabled={isRunning}>Back</Button>
                 </Controls>
 
                 {isPreWorkout && (
