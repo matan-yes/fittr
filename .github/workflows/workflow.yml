@@ -39,7 +39,17 @@ jobs:
       run: |
         aws s3 sync ./build s3://${{ secrets.S3_BUCKET }} --delete --exclude ".git/*" --exclude ".github/*"
 
+    - name: Invalidate production CloudFront cache
+      if: github.ref == 'refs/heads/master'
+      run: |
+        aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+
     - name: Deploy to development S3 bucket
       if: github.ref != 'refs/heads/master'
       run: |
         aws s3 sync ./build s3://${{ secrets.S3_DEV_BUCKET }} --delete --exclude ".git/*" --exclude ".github/*"
+
+    - name: Invalidate development CloudFront cache
+      if: github.ref != 'refs/heads/master'
+      run: |
+        aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DEV_DISTRIBUTION_ID }} --paths "/*"
