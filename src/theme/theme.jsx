@@ -3,7 +3,6 @@ import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import bgImageLight from '../fittr_transparent.png';
 import bgImageDarkMode from '../fittr_dark_mode.png';
 
-
 const lightTheme = {
     background: "#ffffff",
     text: "#000000",
