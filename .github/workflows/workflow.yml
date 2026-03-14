@@ -3,7 +3,7 @@ name: Deploy to S3
 on:
   push:
     branches:
-      - master
+      - '**'
 
 jobs:
   deploy:
@@ -34,6 +34,12 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: Deploy static site to S3 bucket
+    - name: Deploy to production S3 bucket
+      if: github.ref == 'refs/heads/master'
       run: |
         aws s3 sync ./build s3://${{ secrets.S3_BUCKET }} --delete --exclude ".git/*" --exclude ".github/*"
+
+    - name: Deploy to development S3 bucket
+      if: github.ref != 'refs/heads/master'
+      run: |
+        aws s3 sync ./build s3://${{ secrets.S3_DEV_BUCKET }} --delete --exclude ".git/*" --exclude ".github/*"
