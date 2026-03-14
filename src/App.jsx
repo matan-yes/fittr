@@ -76,7 +76,7 @@ function Main() {
 
 function Routers() {
   return (
-    <BrowserRouter basename="/fittr">
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/main" />} />
         <Route path="/main" element={<Main />} />
