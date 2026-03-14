@@ -3,7 +3,7 @@ name: Deploy to S3
 on:
   push:
     branches:
-      - master
+      - '**'
 
 jobs:
   deploy:
@@ -15,6 +15,18 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Setup Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: 'lts/*'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build with Vite
+      run: npm run build
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
@@ -22,6 +34,22 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: Deploy static site to S3 bucket
+    - name: Deploy to production S3 bucket
+      if: github.ref == 'refs/heads/master'
       run: |
-        aws s3 sync ./docs s3://${{ secrets.S3_BUCKET }} --delete --exclude ".git/*" --exclude ".github/*"
+        aws s3 sync ./build s3://${{ secrets.S3_BUCKET }} --delete --exclude ".git/*" --exclude ".github/*"
+
+    - name: Invalidate production CloudFront cache
+      if: github.ref == 'refs/heads/master'
+      run: |
+        aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+
+    - name: Deploy to development S3 bucket
+      if: github.ref != 'refs/heads/master'
+      run: |
+        aws s3 sync ./build s3://${{ secrets.S3_DEV_BUCKET }} --delete --exclude ".git/*" --exclude ".github/*"
+
+    - name: Invalidate development CloudFront cache
+      if: github.ref != 'refs/heads/master'
+      run: |
+        aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DEV_DISTRIBUTION_ID }} --paths "/*"
