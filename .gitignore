@@ -11,6 +11,9 @@ node_modules
 dist-ssr
 *.local
 
+# Ignore build directory
+build
+
 # Environment variables
 .env
 .env.local
